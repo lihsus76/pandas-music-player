@@ -584,10 +584,6 @@ footer {
         width: 98%;
     }
 
-    .logo {
-        visibility: hidden;
-    }
-
     .logo-text {
         font-size: 18px;
     }
@@ -1552,4 +1548,5 @@ footer {
     .toast-footer {
         padding: 15px 20px;
     }
+
 }
