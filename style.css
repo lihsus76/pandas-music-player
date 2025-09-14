@@ -1279,10 +1279,23 @@ footer {
 
 /* Responsive Design */
 @media (max-width: 480px) {
-    .playlist-sidebar {
-        width: 85%;
-        left: -85%;
-    }
+    /* Mobile sidebar initial state */
+.playlist-sidebar {
+    width: 85%;
+    position: fixed;
+    top: 0;
+    left: -85%; /* hidden off-screen */
+    height: 100%;
+    background-color: rgba(0,0,0,0.9);
+    z-index: 9999;
+    transition: left 0.3s ease;
+}
+
+/* When active/open */
+.playlist-sidebar.active {
+    left: 0; /* slide into view */
+}
+
 
     .playlist-content {
         padding: 15px;
@@ -1549,4 +1562,5 @@ footer {
     }
 
 }
+
 
