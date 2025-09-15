@@ -1,80 +1,56 @@
-
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const playlistSidebar = document.getElementById('playlistSidebar');
     const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
-    
-    // Check if device is mobile
-    const isMobile = window.innerWidth <= 768;
-
-    // Sidebar toggle
-    if (sidebarToggleBtn) {
-        sidebarToggleBtn.addEventListener('click', function(e) {
-            e.stopPropagation(); // prevent triggering document click
-            playlistSidebar.classList.toggle('active');
-            sidebarOverlay.classList.toggle('active');
-            sidebarToggleBtn.classList.toggle('moved');
-
-            // Prevent body scroll when sidebar is open on mobile
-            if (playlistSidebar.classList.contains('active')) {
-                if (window.innerWidth <= 768) {
-                    document.body.style.overflow = 'hidden';
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                }
-            } else {
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
-            }
-
-            // Update icon
-            const icon = sidebarToggleBtn.querySelector('i');
-            icon.className = playlistSidebar.classList.contains('active') ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
-        });
-    }
-
-    // Close sidebar button
     const closeSidebar = document.getElementById('closeSidebar');
+
+    function openSidebar() {
+        playlistSidebar.classList.add('active');
+        sidebarOverlay.classList.add('active');
+        sidebarToggleBtn.classList.add('moved');
+        document.body.style.overflow = 'hidden'; // no position fixed here
+        const icon = sidebarToggleBtn.querySelector('i');
+        if (icon) icon.className = 'fas fa-chevron-left';
+    }
+
+    function closeSidebarFunc() {
+        playlistSidebar.classList.remove('active');
+        sidebarOverlay.classList.remove('active');
+        sidebarToggleBtn.classList.remove('moved');
+        document.body.style.overflow = '';
+        const icon = sidebarToggleBtn.querySelector('i');
+        if (icon) icon.className = 'fas fa-chevron-right';
+    }
+
+    function toggleSidebar(e) {
+        e.stopPropagation();
+        if (playlistSidebar.classList.contains('active')) {
+            closeSidebarFunc();
+        } else {
+            openSidebar();
+        }
+    }
+
+    // Toggle button click/touch
+    if (sidebarToggleBtn) {
+        sidebarToggleBtn.addEventListener('click', toggleSidebar);
+        sidebarToggleBtn.addEventListener('touchstart', toggleSidebar); // for mobile
+    }
+
+    // Close button
     if (closeSidebar) {
-        closeSidebar.addEventListener('click', function() {
-            playlistSidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-            sidebarToggleBtn.classList.remove('moved');
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            const icon = sidebarToggleBtn.querySelector('i');
-            icon.className = 'fas fa-chevron-right';
-        });
+        closeSidebar.addEventListener('click', closeSidebarFunc);
     }
 
-    // Overlay click to close sidebar
+    // Overlay click
     if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', function() {
-            playlistSidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-            sidebarToggleBtn.classList.remove('moved');
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            const icon = sidebarToggleBtn.querySelector('i');
-            icon.className = 'fas fa-chevron-right';
-        });
+        sidebarOverlay.addEventListener('click', closeSidebarFunc);
     }
 
-    // Close sidebar if clicking outside
-    document.addEventListener('click', function(e) {
+    // Close on outside click (desktop only to avoid mobile misfires)
+    document.addEventListener('click', function (e) {
         if (!playlistSidebar.contains(e.target) && !sidebarToggleBtn.contains(e.target)) {
-            playlistSidebar.classList.remove('active');
-            sidebarOverlay.classList.remove('active');
-            sidebarToggleBtn.classList.remove('moved');
-            document.body.style.overflow = '';
-            document.body.style.position = '';
-            document.body.style.width = '';
-            const icon = sidebarToggleBtn.querySelector('i');
-            icon.className = 'fas fa-chevron-right';
+            closeSidebarFunc();
         }
     });
 });
