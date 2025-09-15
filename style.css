@@ -1604,28 +1604,38 @@ footer {
 }
 
 
-.sidebar,
-.playlist-sidebar {
+/* --- mobile-friendly overrides --- */
+@media (max-width: 900px) {
+  /* background-attachment: fixed breaks painting on many mobile browsers */
+  body {
+    background-attachment: scroll !important;
+  }
+
+  /* ensure sidebar is above everything on mobile */
+  #playlistSidebar,
+  .playlist-sidebar,
+  .sidebar {
     position: fixed !important;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100vh;
-    z-index: 9999; /* Make sure it's above everything */
-    background: var(--card-bg);
-    transition: left 0.4s ease;
-    will-change: left; /* Forces GPU rendering */
-    transform: translateZ(0); /* Fix repaint issues on mobile */
+    left: -100% !important;
+    width: 80vw;
+    max-width: 320px;
+    height: 100vh !important;
+    z-index: 2147483647 !important; /* huge value to outrank anything */
+    will-change: left, transform;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  /* overlay must sit below sidebar but above page content */
+  .sidebar-overlay {
+    z-index: 2147483646 !important;
+  }
+
+  /* make body visible area not clip the sidebar */
+  html, body {
+    overflow-x: visible !important;
+  }
 }
 
-.sidebar.active,
-.playlist-sidebar.active {
-    left: 0 !important;
-}
 
-body { overflow-x: visible !important; }
-
-.sidebar,
-.playlist-sidebar
-{ background: red !important; }
 
