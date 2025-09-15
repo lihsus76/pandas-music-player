@@ -1637,5 +1637,23 @@ footer {
   }
 }
 
+#playlistSidebar {
+  z-index: 2147483647 !important; /* huge z-index, above everything */
+  position: fixed !important;
+  left: -288px; /* hidden */
+  top: 0;
+  height: 100vh;
+  will-change: left;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+#playlistSidebar.active {
+  left: 0 !important;
+}
+
+#sidebarOverlay {
+  z-index: 2147483646 !important;
+}
+
 
 
