@@ -1602,3 +1602,30 @@ footer {
         padding: 15px 20px;
     }
 }
+
+
+.sidebar,
+.playlist-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    z-index: 9999; /* Make sure it's above everything */
+    background: var(--card-bg);
+    transition: left 0.4s ease;
+    will-change: left; /* Forces GPU rendering */
+    transform: translateZ(0); /* Fix repaint issues on mobile */
+}
+
+.sidebar.active,
+.playlist-sidebar.active {
+    left: 0 !important;
+}
+
+body { overflow-x: visible !important; }
+
+.sidebar,
+.playlist-sidebar
+{ background: red !important; }
+
